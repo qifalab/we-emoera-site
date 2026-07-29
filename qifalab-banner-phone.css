@@ -1,0 +1,10 @@
+.qifalab-banner-phone {
+    width: 97%;
+    height: 100px;
+}
+
+@media (max-width: 768px) {
+    .qifalab-banner-phone {
+        height: 200px;
+    }
+}
