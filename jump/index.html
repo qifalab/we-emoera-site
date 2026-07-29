@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E时代展示网站 - 跳转页</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            font-family: 'Noto Sans SC', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2000" fill="white"><circle cx="1000" cy="1000" r="1"/></svg>');
+            background-size: 100px 100px;
+            opacity: 0.3;
+            animation: twinkle 8s infinite linear;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.5; }
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #000 100%);
+            z-index: -2;
+        }
+
+        .particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 900px;
+            padding: 4rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 102, 255, 0.2);
+        }
+
+        .content-wrapper {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 3rem;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-container:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 30px;
+            filter: drop-shadow(0 0 25px rgba(0, 150, 255, 0.3));
+            transition: all 0.5s ease;
+        }
+
+        .logo:hover {
+            filter: drop-shadow(0 0 35px rgba(0, 150, 255, 0.5));
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background: radial-gradient(circle at center, rgba(0, 150, 255, 0.2), transparent);
+            z-index: -1;
+            filter: blur(20px);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateX(0); }
+            50% { transform: translateY(-20px) rotateX(5deg); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(120deg, #fff, #88ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 2;
+            text-align: center;
+            margin-bottom: 3rem;
+            letter-spacing: 0.5px;
+        }
+
+        .message {
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 3rem;
+            text-align: center;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .redirect-btn {
+            display: inline-block;
+            padding: 1.2rem 3.5rem;
+            font-size: 1.2rem;
+            color: #fff;
+            background: linear-gradient(45deg, #0066ff, #00b3ff);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.2);
+            transform-origin: center;
+            transform-style: preserve-3d;
+        }
+
+        .redirect-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                    120deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.4),
+                    transparent
+            );
+            transition: 0.6s;
+        }
+
+        .redirect-btn:hover::before {
+            left: 100%;
+        }
+
+        .redirect-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 102, 255, 0.4);
+        }
+
+        .redirect-btn:active {
+            transform: translateY(2px) scale(0.95);
+        }
+
+        .btn-container {
+            text-align: center;
+            position: relative;
+        }
+
+        .btn-container::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(0, 102, 255, 0.15), transparent);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+        }
+
+        // 添加倒计时样式
+           .countdown {
+               position: absolute;
+               top: -25px;
+               left: 50%;
+               transform: translateX(-50%);
+               font-size: 0.9rem;
+               color: rgba(255, 255, 255, 0.6);
+               letter-spacing: 1px;
+               white-space: nowrap;
+           }
+    </style>
+</head>
+<body>
+<canvas class="particle-container" id="particleCanvas"></canvas>
+<div class="background"></div>
+<div class="container">
+    <div class="content-wrapper">
+        <div class="logo-container">
+            <img src="https://we.emoera.com/img/elogo.jpg" alt="Logo" class="logo">
+        </div>
+        <h1>E时代展示网站</h1>
+        <div class="subtitle">创新 · 发展 · 未来</div>
+        <p>感谢您访问E时代展示网站<br>此展示页面已交由新一届社长sml运营，我们即将开启新的篇章</p>
+        <div class="message">全校最强开发团队，来自E时代</div>
+        <div class="btn-container">
+            <a href="https://we.emoera.cn/" class="redirect-btn" target="_blank">
+                <span class="countdown"></span>
+                访问新网站
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 粒子系统
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // 设置画布尺寸
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // 粒子类
+    class Particle {
+        constructor() {
+            this.reset();
+        }
+
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 1;
+            this.speedX = Math.random() * 2 - 1;
+            this.speedY = Math.random() * 2 - 1;
+            this.life = 1;
+            this.color = `rgba(0, 150, 255, ${Math.random() * 0.5})`;
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            // 边界检查
+            if (this.x < 0 || this.x > canvas.width ||
+                this.y < 0 || this.y > canvas.height) {
+                this.reset();
+            }
+
+            // 鼠标交互
+            const dx = this.x - mouse.x;
+            const dy = this.y - mouse.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 100) {
+                const angle = Math.atan2(dy, dx);
+                const force = (100 - distance) / 100;
+                this.speedX += Math.cos(angle) * force * 0.2;
+                this.speedY += Math.sin(angle) * force * 0.2;
+            }
+
+            // 限制速度
+            const maxSpeed = 2;
+            const currentSpeed = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
+            if (currentSpeed > maxSpeed) {
+                this.speedX = (this.speedX / currentSpeed) * maxSpeed;
+                this.speedY = (this.speedY / currentSpeed) * maxSpeed;
+            }
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
+    }
+
+    // 创建粒子数组
+    const particles = [];
+    const particleCount = 100;
+    for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+    }
+
+    // 鼠标位置跟踪
+    const mouse = {
+        x: undefined,
+        y: undefined
+    };
+
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+    });
+
+    // 动画循环
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+
+        // 绘制粒子之间的连线
+        particles.forEach(particle1 => {
+            particles.forEach(particle2 => {
+                const dx = particle1.x - particle2.x;
+                const dy = particle1.y - particle2.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 100) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(0, 150, 255, ${0.1 * (1 - distance/100)})`;
+                    ctx.lineWidth = 1;
+                    ctx.moveTo(particle1.x, particle1.y);
+                    ctx.lineTo(particle2.x, particle2.y);
+                    ctx.stroke();
+                }
+            });
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // 添加按钮点击效果
+    const btn = document.querySelector('.redirect-btn');
+    btn.addEventListener('mousedown', () => {
+        btn.style.transform = 'scale(0.95) translateY(2px)';
+    });
+
+    btn.addEventListener('mouseup', () => {
+        btn.style.transform = 'scale(1) translateY(-3px)';
+    });
+
+    // 添加容器悬浮效果
+    const container = document.querySelector('.container');
+    container.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = (y - centerY) / 30;
+        const rotateY = -(x - centerX) / 30;
+
+        container.style.transform =
+            `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    container.addEventListener('mouseleave', () => {
+        container.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+    });
+
+    // 添加倒计时和自动跳转功能
+    const countdownElement = document.querySelector('.countdown');
+    const redirectUrl = 'https://we.emoera.cn/';
+    let timeLeft = 10;
+
+    function updateCountdown() {
+        countdownElement.textContent = `${timeLeft} 秒后自动跳转`;
+
+        if (timeLeft <= 0) {
+            window.location.href = redirectUrl;
+            timeLeft = 10;
+            return;
+        }
+
+        timeLeft--;
+        setTimeout(updateCountdown, 1000);
+    }
+
+    // 启动倒计时
+    updateCountdown();
+</script>
+</body>
+</html>

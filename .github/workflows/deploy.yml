@@ -1,0 +1,97 @@
+name: Deploy
+
+# Only the default branch deploys. Pull requests are handled by ci.yml and have
+# no access to the deploy secrets.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: What to do
+        type: choice
+        options: [deploy, rollback, list]
+        default: deploy
+      version:
+        description: Release to activate (rollback only; blank = previous release)
+        type: string
+        required: false
+
+permissions:
+  contents: read
+
+# Never let two deploys interleave, and never cancel one midway.
+concurrency:
+  group: deploy-we-emoera-com
+  cancel-in-progress: false
+
+env:
+  DEPLOY_SITE: we.emoera.com
+  DEPLOY_VERIFY_HOST: we.emoera.com
+  DEPLOY_VERIFY_SCHEME: https
+  # No content hashing on this site, so name a few representative files that
+  # must be reachable on the origin after activation.
+  DEPLOY_VERIFY_PATHS: /main.css /js/main.js /img/elogo.jpg
+
+jobs:
+  deploy:
+    if: github.event_name == 'push' || github.event.inputs.operation == 'deploy'
+    name: check and publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Assemble payload
+        run: bash scripts/build-site.sh dist
+
+      - name: Publish release
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_DIST: dist
+        run: |
+          version="$(date -u +%Y%m%dT%H%M%SZ)-${GITHUB_SHA::7}"
+          echo "release=$version" >>"$GITHUB_STEP_SUMMARY"
+          bash scripts/deploy-release.sh publish "$version"
+
+      - name: Show releases on origin
+        if: always()
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: bash scripts/deploy-release.sh list
+
+  rollback:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.operation == 'rollback'
+    name: roll back
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Roll back
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: bash scripts/deploy-release.sh rollback "${{ github.event.inputs.version }}"
+
+  list:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.operation == 'list'
+    name: list releases
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: List
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: bash scripts/deploy-release.sh list

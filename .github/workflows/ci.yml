@@ -1,0 +1,39 @@
+name: Build
+
+# Pull requests and pushes are only ever checked here. Deployment lives in
+# deploy.yml and never runs for a pull request, so a contributor cannot reach
+# production by opening one.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: assemble site payload
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Assemble payload
+        run: bash scripts/build-site.sh dist
+
+      - name: Report payload
+        run: |
+          echo '### Payload' >>"$GITHUB_STEP_SUMMARY"
+          { echo '```'; du -sh dist; find dist -maxdepth 1 | sort; echo '```'; } >>"$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: site-${{ github.sha }}
+          path: dist
+          retention-days: 7
