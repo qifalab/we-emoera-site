@@ -29,12 +29,8 @@
         </div>
         <div class="nav-center">
             <a href="javascript:heoWeb.scrollTo('应用');" class="nav-item">现任团队</a>
-            <a href="javascript:heoWeb.scrollTo('21级');" class="nav-item">21级</a>
-            <a href="javascript:heoWeb.scrollTo('22级');" class="nav-item">22级</a>
-            <a href="javascript:heoWeb.scrollTo('23级');" class="nav-item">23级</a>
-            <a href="javascript:heoWeb.scrollTo('24级');" class="nav-item">24级</a>
+            <a href="javascript:heoWeb.scrollTo('媒体');" class="nav-item">往届团队</a>
             <a href="javascript:heoWeb.scrollTo('服务');" class="nav-item">服务</a>
-            <a href="javascript:heoWeb.scrollTo('新成员');" class="nav-item">新成员</a>
         </div>
         <div class="nav-right">
             <a href="https://www.qifalab.cn/" class="nav-item" target="_blank">启发lab</a>
@@ -45,12 +41,8 @@
 <div class="menu-list" id="menu-list">
     <a href="https://www.igetq.com/index.php/archives/159/" class="nav-item" target="_blank">博客中心</a>
     <a href="javascript:heoWeb.scrollTo('应用');" class="nav-item">现任团队</a>
-    <a href="javascript:heoWeb.scrollTo('21级');" class="nav-item">21级</a>
-            <a href="javascript:heoWeb.scrollTo('22级');" class="nav-item">22级</a>
-            <a href="javascript:heoWeb.scrollTo('23级');" class="nav-item">23级</a>
-            <a href="javascript:heoWeb.scrollTo('24级');" class="nav-item">24级</a>
+    <a href="javascript:heoWeb.scrollTo('媒体');" class="nav-item">往届团队</a>
     <a href="javascript:heoWeb.scrollTo('服务');" class="nav-item">服务</a>
-    <a href="javascript:heoWeb.scrollTo('新成员');" class="nav-item">新成员</a>
 </div>
 <div class="nav-banner">
     <a class="nav-banner-text" href="https://www.qifalab.cn/" target="_blank">E时代 · 启发实验室 &nbsp;&nbsp;已上线，点击这里访问</a>
@@ -81,7 +73,7 @@
     <span class="avatar-title">E时代（宜宾校区）创始人</span>
 </div>
 
-<!-- 现任团队板块 -->
+<!-- 现任团队板块：已更新为指定6位成员 -->
 <div class="product-group need-padding" id="应用">
     <h2 class="group-title">现任团队</h2>
     <span class="group-description">现任E时代核心团队成员</span>
@@ -279,12 +271,12 @@
 </div>
 
 <!-- 往届团队板块：已合并原现任成员及24级新成员信息（保留所有标签和博客链接） -->
-
-<!-- 21级团队板块 -->
-<div class="product-group need-padding" id="21级">
-    <h2 class="group-title">21级团队</h2>
-    <span class="group-description">E时代创始人及21级核心成员</span>
+<div class="product-group need-padding" id="媒体">
+    <h2 class="group-title">往届团队</h2>
+    <span class="group-description">往届E时代核心团队成员（含现任及新成员档案）</span>
     <div class="group-items">
+
+        <!-- 创始人及21级 -->
         <div class="group-item">
             <a class="group-item-icon" href="#" target="_blank">
                 <img class="group-item-icon-img" src="img/wzl.jpg" alt="Karos">
@@ -330,14 +322,8 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- 22级团队板块 -->
-<div class="product-group need-padding" id="22级">
-    <h2 class="group-title">22级团队</h2>
-    <span class="group-description">22级E时代核心成员</span>
-    <div class="group-items">
+        <!-- 22级成员 -->
         <div class="group-item">
             <a class="group-item-icon" href="#" target="_blank">
                 <img class="group-item-icon-img" src="img/qk2.png" alt="Kechang">
@@ -443,14 +429,8 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- 23级团队板块 -->
-<div class="product-group need-padding" id="23级">
-    <h2 class="group-title">23级团队</h2>
-    <span class="group-description">23级E时代核心成员</span>
-    <div class="group-items">
+        <!-- 23级原任成员 (保留原标签及签名) -->
         <div class="group-item">
             <a class="group-item-icon" href="#" target="_blank">
                 <img class="group-item-icon-img" src="img/sml.jpg" alt="Lntano.">
@@ -513,6 +493,21 @@
         </div>
         <div class="group-item">
             <a class="group-item-icon" href="#" target="_blank">
+                <img class="group-item-icon-img" src="img/hjh.jpg" alt="迪迦奥特快">
+            </a>
+            <div class="group-info-group">
+                <div class="group-info">
+                    <a class="title" href="#" target="_blank">迪迦奥特快</a>
+                    <a class="discription" href="#" target="_blank">啊？你也相信光！</a>
+                </div>
+                <div class="group-info-button">
+                    <a class="linkbutton-false" href="#" target="_blank">博客</a>
+                    <span class="linkbotton-tips"></span>
+                </div>
+            </div>
+        </div>
+        <div class="group-item">
+            <a class="group-item-icon" href="#" target="_blank">
                 <img class="group-item-icon-img" src="img/tbx.jpg" alt="不为谁而作的诗">
             </a>
             <div class="group-info-group">
@@ -541,14 +536,8 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- 24级团队板块 -->
-<div class="product-group need-padding" id="24级">
-    <h2 class="group-title">24级团队</h2>
-    <span class="group-description">24级E时代新成员</span>
-    <div class="group-items">
+        <!-- 24级新成员（不含“新成员”占位符，该占位符仍保留在下方独立板块） -->
         <div class="group-item">
             <a class="group-item-icon" href="#" target="_blank">
                 <img class="group-item-icon-img" src="uploads/b_6b67b2bf0f3d9712c7814fae70819be8.jpg" alt="不知名小帅">
@@ -559,6 +548,7 @@
                     <a class="discription" href="#" target="_blank">激情改变人生 人生需要passion</a>
                 </div>
                 <div class="group-info-button">
+                    <a class="linkbutton" href="https://buzhimingxiaoshuai.cn/" target="_blank">博客</a>
                     <a class="linkbutton" href="http://bzmxs.cn" target="_blank">博客</a>
                     <span class="linkbotton-tips"></span>
                 </div>
@@ -759,9 +749,9 @@
                 </div>
             </div>
         </div>
+        <!-- 插入新条目的位置 (预留) -->
     </div>
 </div>
-
 
 <!-- 服务板块保持不变 -->
 <div class="product-group need-padding" id="服务">
