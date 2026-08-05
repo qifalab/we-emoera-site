@@ -1,7 +1,7 @@
 // ============================================================
 // E时代 站点导航与平滑滚动逻辑
-// 关键：heoWeb 与滚动函数优先定义，避免外部库(jQuery)加载失败
-//       导致整段脚本中断、导航点击全部失效。
+// 关键：heoWeb 与滚动函数优先定义，不依赖外部库，
+//       避免资源加载失败导致导航点击全部失效。
 // ============================================================
 
 // 平滑滚动 / 菜单控制对象（不依赖任何外部库）
@@ -84,7 +84,7 @@ if (typeof simpleParallax !== "undefined") {
   } catch (e) {}
 }
 
-// 菜单按钮（汉堡键）点击：切换菜单显隐，不依赖 jQuery
+// 菜单按钮（汉堡键）点击：切换菜单显隐
 var menuButton = document.getElementById("nav-menu");
 if (menuButton) {
   menuButton.addEventListener(
@@ -100,17 +100,17 @@ if (menuButton) {
   );
 }
 
-// 点击菜单项后收起菜单（依赖 jQuery，缺失时安全跳过，不影响滚动）
-if (typeof $ !== "undefined") {
-  $(".menu-list").click(function () {
-    heoWeb.hideMenu();
-  });
-}
-
-// 阻止菜单区域滚动穿透
+// 点击菜单项后收起菜单，并阻止菜单区域滚动穿透
 var menuListEl = document.querySelector(".menu-list");
 if (menuListEl) {
-  menuListEl.addEventListener("wheel", function (e) {
-    e.preventDefault();
+  menuListEl.addEventListener("click", function () {
+    heoWeb.hideMenu();
   });
+  menuListEl.addEventListener(
+    "wheel",
+    function (e) {
+      e.preventDefault();
+    },
+    { passive: false }
+  );
 }
